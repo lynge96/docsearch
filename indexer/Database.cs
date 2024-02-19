@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Shared.Model;
-using Shared;
+﻿using indexer.Model;
 using Microsoft.Data.Sqlite;
+using Shared;
+using Shared.Model;
+using System.Collections.Generic;
 
 namespace Indexer
 {
@@ -167,5 +167,45 @@ namespace Indexer
             }
             return -1;
         }
+
+        public List<WordOccurrenceDto> GetTopWordCounts(int topCount)
+        {
+            var wordOccurrences = new List<WordOccurrenceDto>();
+
+            var selectCmd = _connection.CreateCommand();
+            selectCmd.CommandText = @"
+                SELECT w.id AS WordId, w.name AS Word, COUNT(*) as Count
+                FROM word w
+                JOIN occ o ON w.id = o.wordId
+                GROUP BY w.id, w.name
+                ORDER BY Count DESC
+                LIMIT @TopCount";
+
+            // Add parameter for topCount
+            selectCmd.Parameters.AddWithValue("@TopCount", topCount);
+
+            using (var reader = selectCmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var wordId = reader.GetInt32(0);
+                    var word = reader.GetString(1);
+                    var count = reader.GetInt32(2);
+
+                    var dto = new WordOccurrenceDto
+                    {
+                        WordId = wordId,
+                        Word = word,
+                        Count = count
+                    };
+
+                    wordOccurrences.Add(dto);
+                }
+            }
+
+            return wordOccurrences;
+        }
+
+
     }
 }

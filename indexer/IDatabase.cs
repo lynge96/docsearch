@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using indexer.Model;
 using Shared.Model;
+using System.Collections.Generic;
 
 namespace Indexer
 {
@@ -19,5 +20,8 @@ namespace Indexer
         void InsertAllWords(Dictionary<string, int> words);
 
         void InsertAllOcc(int docId, ISet<int> wordIds);
+
+        List<WordOccurrenceDto> GetTopWordCounts(int topCount);
+
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Shared;
 
 namespace Indexer
 {
@@ -24,13 +24,31 @@ namespace Indexer
 
             Console.WriteLine($"Indexed {db.GetDocumentCounts()} documents");
             Console.WriteLine($"Number of different words: {all.Count}");
-            int count = 10;
-            Console.WriteLine($"The first {count} is:");
-            foreach (var p in all) {
-                Console.WriteLine("<" + p.Key + ", " + p.Value + ">");
-                count--;
-                if (count == 0) break;
+
+            
+            while (true)
+            {
+                Console.WriteLine("\nEnter the amount of top words by occurrence you want to see:");
+                var input = Console.ReadLine();
+
+                if (int.TryParse(input, out var wordCount) && wordCount > 0)
+                {
+                    Console.WriteLine($"Finding the top {wordCount} words:\n");
+
+                    var topWords = db.GetTopWordCounts(wordCount);
+
+                    Console.WriteLine("<Word, WordId> - Count\n");
+                    foreach (var word in topWords)
+                    {
+                        Console.WriteLine($"<{word.Word}, {word.WordId}> - {word.Count}");
+                    }
+
+                    break;
+                }
+
+                Console.WriteLine("Invalid input. Please enter a valid positive number.");
             }
+
         }
     }
 }

@@ -20,7 +20,10 @@ namespace Indexer
 
         IDatabase mdatabase;
 
-        public Crawler(IDatabase db){ mdatabase = db; }
+        public Crawler(IDatabase db)
+        {
+            mdatabase = db;
+        }
 
         //Return a dictionary containing all words (as the key)in the file
         // [f] and the value is the number of occurrences of the key in file.
@@ -53,7 +56,8 @@ namespace Indexer
         // in the directory [dir]. Only files with an extension in
         // [extensions] is read. The value part of the return value is
         // the number of occurrences of the key.
-        public void IndexFilesIn(DirectoryInfo dir, List<string> extensions) {
+        public void IndexFilesIn(DirectoryInfo dir, List<string> extensions)
+        {
             
             Console.WriteLine($"Crawling {dir.FullName}");
 
@@ -68,9 +72,12 @@ namespace Indexer
                         mCreationTime = file.CreationTime.ToString()
                     };
                     
-                    mdatabase.InsertDocument(newDoc);
+                    mdatabase.InsertDocument(newDoc); 
+
                     Dictionary<string, int> newWords = new Dictionary<string, int>();
+
                     ISet<string> wordsInFile = ExtractWordsInFile(file);
+
                     foreach (var aWord in wordsInFile) {
                         if (!words.ContainsKey(aWord)) {
                             words.Add(aWord, words.Count + 1);
@@ -81,8 +88,8 @@ namespace Indexer
 
                     mdatabase.InsertAllOcc(newDoc.mId, GetWordIdFromWords(wordsInFile));
 
-
                 }
+
             foreach (var d in dir.EnumerateDirectories())
                 IndexFilesIn(d, extensions);
         }
