@@ -6,10 +6,6 @@ namespace ConsoleSearch;
 
 public class App
 {
-    public App()
-    {
-    }
-
     public void Run()
     {
         var mSearchLogic = new SearchLogic(new Database());
@@ -22,10 +18,8 @@ public class App
             var input = Console.ReadLine();
 
             if (input is "q") break;
-            if (input == null) continue;
 
-            input.CaseSensitiveCommand();
-
+            input.AdvancedSettingsCommand();
 
             var query = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
             
@@ -35,14 +29,14 @@ public class App
                 Console.WriteLine($"Ignored: {string.Join(',', result.Ignored)}");
             }
 
-            int idx = 1;
+            var idx = 1;
             foreach (var doc in result.DocumentHits) {
                 Console.WriteLine($"{idx} : {doc.Document.mUrl} -- contains {doc.NoOfHits} search terms");
-                Console.WriteLine("Index time: " + doc.Document.mIdxTime);
+                Console.WriteLine($"Index time: {doc.Document.mIdxTime}");
                 Console.WriteLine($"Missing: {ArrayAsString(doc.Missing.ToArray())}");
                 idx++;
             }
-            Console.WriteLine("Documents: " + result.Hits + ". Time: " + result.TimeUsed.TotalMilliseconds);
+            Console.WriteLine($"Documents: {result.Hits}. Time: {result.TimeUsed.TotalMilliseconds:F2} ms\n");
         }
     }
 
