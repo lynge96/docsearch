@@ -1,5 +1,6 @@
-﻿using ConsoleSearch.Model;
+﻿using ConsoleSearch.Model.Settings;
 using System;
+using ConsoleSearch.Extensions;
 
 namespace ConsoleSearch;
 
@@ -9,31 +10,25 @@ public class App
     {
     }
 
-    public void Run(AppSettings appSettings)
+    public void Run()
     {
         var mSearchLogic = new SearchLogic(new Database());
 
-        Console.WriteLine("Console Search");
+        Console.WriteLine("Console Search\n");
         
         while (true)
         {
-            Console.WriteLine("enter search terms - q for quit");
+            Console.WriteLine("Enter search terms - q for quit");
             var input = Console.ReadLine();
+
             if (input is "q") break;
+            if (input == null) continue;
+
+            input.CaseSensitiveCommand();
+
 
             var query = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-            if (appSettings.AdvancedSettings.IsCaseSensitive)
-            {
-
-            }
-            else
-            {
-
-            }
-
-           
-
+            
             var result = mSearchLogic.Search(query, 10);
 
             if (result.Ignored.Count > 0) {

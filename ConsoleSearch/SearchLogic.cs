@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shared.Model;
+using ConsoleSearch.Model;
 
 namespace ConsoleSearch
 {
@@ -22,7 +22,7 @@ namespace ConsoleSearch
         {
             List<string> ignored;
 
-            DateTime start = DateTime.Now;
+            var start = DateTime.Now;
 
             // Convert words to wordids
             var wordIds = mDatabase.GetWordIds(query, out ignored);
@@ -37,8 +37,8 @@ namespace ConsoleSearch
 
             // compose the result.
             // all the documentHit
-            List<DocumentHit> docresult = new List<DocumentHit>();
-            int idx = 0;
+            var docresult = new List<DocumentHit>();
+            var idx = 0;
             foreach (var doc in mDatabase.GetDocDetails(top))
             {
                 var missing = mDatabase.WordsFromIds(mDatabase.getMissing(doc.mId, wordIds));

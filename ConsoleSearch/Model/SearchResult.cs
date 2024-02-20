@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shared.Model;
 
-namespace ConsoleSearch
+namespace ConsoleSearch.Model
 {
     /*
      * A data class representing the result of a search.
@@ -14,7 +13,7 @@ namespace ConsoleSearch
      */
     public class SearchResult
     {
-        public SearchResult(String[] query, int hits, List<DocumentHit> documents, List<string> ignored, TimeSpan timeUsed)
+        public SearchResult(string[] query, int hits, List<DocumentHit> documents, List<string> ignored, TimeSpan timeUsed)
         {
             Query = query;
             Hits = hits;
@@ -23,14 +22,14 @@ namespace ConsoleSearch
             TimeUsed = timeUsed;
         }
 
-        public String[] Query { get;  }
+        public string[] Query { get; }
 
         public int Hits { get; }
 
-        public List<DocumentHit> DocumentHits { get;  }
+        public List<DocumentHit> DocumentHits { get; }
 
         public List<string> Ignored { get; }
 
-        public TimeSpan TimeUsed { get;  }
+        public TimeSpan TimeUsed { get; }
     }
 }

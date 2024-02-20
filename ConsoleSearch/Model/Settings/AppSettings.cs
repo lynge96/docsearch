@@ -1,4 +1,4 @@
-﻿namespace ConsoleSearch.Model;
+﻿namespace ConsoleSearch.Model.Settings;
 
 public class AppSettings
 {
