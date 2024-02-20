@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Shared.Model;
 using System.Collections.Generic;
-using Shared.Model;
 
-namespace ConsoleSearch
+namespace ConsoleSearch.Model
 {
     public class DocumentHit
     {
@@ -13,10 +12,10 @@ namespace ConsoleSearch
             Missing = missing;
         }
 
-        public BEDocument Document { get;  }
+        public BEDocument Document { get; }
 
-        public int NoOfHits { get;  }
+        public int NoOfHits { get; }
 
-        public List<string> Missing { get;  }
+        public List<string> Missing { get; }
     }
 }

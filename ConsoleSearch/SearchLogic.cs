@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shared.Model;
+using ConsoleSearch.Model;
 
 namespace ConsoleSearch
 {
@@ -22,7 +22,7 @@ namespace ConsoleSearch
         {
             List<string> ignored;
 
-            DateTime start = DateTime.Now;
+            var start = DateTime.Now;
 
             // Convert words to wordids
             var wordIds = mDatabase.GetWordIds(query, out ignored);
@@ -32,16 +32,18 @@ namespace ConsoleSearch
 
             // get ids for the first maxAmount             
             var top = new List<int>();
+
             foreach (var p in docIds.GetRange(0, Math.Min(maxAmount, docIds.Count)))
                 top.Add(p.Key);
 
             // compose the result.
             // all the documentHit
-            List<DocumentHit> docresult = new List<DocumentHit>();
-            int idx = 0;
+            var docresult = new List<DocumentHit>();
+            var idx = 0;
+
             foreach (var doc in mDatabase.GetDocDetails(top))
             {
-                var missing = mDatabase.WordsFromIds(mDatabase.getMissing(doc.mId, wordIds));
+                var missing = mDatabase.WordsFromIds(mDatabase.GetMissing(doc.mId, wordIds));
                   
                 docresult.Add(new DocumentHit(doc, docIds[idx++].Value, missing));
             }

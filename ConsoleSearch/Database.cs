@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using Microsoft.Data.Sqlite;
 using Shared;
 using Shared.Model;
-using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
+using System.Linq;
+using ConsoleSearch.Model.Settings;
 
 namespace ConsoleSearch
 {
@@ -23,7 +25,6 @@ namespace ConsoleSearch
 
             _connection.Open();
 
-
         }
 
         private void Execute(string sql)
@@ -32,9 +33,6 @@ namespace ConsoleSearch
             cmd.CommandText = sql;
             cmd.ExecuteNonQuery();
         }
-
-
-
 
 
         // key is the id of the document, the value is number of search words in the document
@@ -77,11 +75,9 @@ namespace ConsoleSearch
 
 
 
-       
-
-        private Dictionary<string, int> GetAllWords()
+        private Dictionary<string, int> GetAllWords(bool caseSensitive = false)
         {
-            Dictionary<string, int> res = new Dictionary<string, int>();
+            var res = new Dictionary<string, int>();
 
             var selectCmd = _connection.CreateCommand();
             selectCmd.CommandText = "SELECT * FROM word";
@@ -98,6 +94,7 @@ namespace ConsoleSearch
             }
             return res;
         }
+
 
         public List<BEDocument> GetDocDetails(List<int> docIds)
         {
@@ -123,7 +120,7 @@ namespace ConsoleSearch
 
         /* Return a list of id's for words; all them among wordIds, but not present in the document
          */
-        public List<int> getMissing(int docId, List<int> wordIds)
+        public List<int> GetMissing(int docId, List<int> wordIds)
         {
             var sql = "SELECT wordId FROM Occ where ";
             sql += "wordId in " + AsString(wordIds) + " AND docId = " + docId;
@@ -158,7 +155,7 @@ namespace ConsoleSearch
             var selectCmd = _connection.CreateCommand();
             selectCmd.CommandText = sql;
 
-            List<string> result = new List<string>();
+            var result = new List<string>();
 
             using (var reader = selectCmd.ExecuteReader())
             {
@@ -174,18 +171,37 @@ namespace ConsoleSearch
         public List<int> GetWordIds(string[] query, out List<string> outIgnored)
         {
             if (mWords == null)
+            {
                 mWords = GetAllWords();
+            }
+
             var res = new List<int>();
             var ignored = new List<string>();
 
             foreach (var aWord in query)
             {
-                if (mWords.ContainsKey(aWord))
+                if (!AdvancedSettings.IsCaseSensitive)
+                {
+                    var matchingWords = mWords.Keys
+                        .Where(word => string.Equals(word, aWord, StringComparison.OrdinalIgnoreCase));
+
+                    if (matchingWords.Any())
+                    {
+                        // If there are matching words, add their corresponding IDs
+                        res.AddRange(matchingWords.Select(word => mWords[word]));
+                    }
+                }
+                else if (mWords.ContainsKey(aWord))
+                {
                     res.Add(mWords[aWord]);
+                }
                 else
+                {
                     ignored.Add(aWord);
+                }
             }
             outIgnored = ignored;
+
             return res;
         }
     }

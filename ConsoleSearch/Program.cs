@@ -1,12 +1,21 @@
-﻿using System;
+﻿using System.IO;
+using ConsoleSearch.Model.Settings;
+using Microsoft.Extensions.Configuration;
 
-namespace ConsoleSearch
+namespace ConsoleSearch;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            new App().Run();
-        }
+        IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
+
+        new App().Run();
     }
 }
+
