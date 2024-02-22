@@ -14,29 +14,46 @@ public class App
         
         while (true)
         {
-            Console.WriteLine("Enter search terms - q for quit");
+            Console.WriteLine("Enter search terms - q for quit - /help for commands");
             var input = Console.ReadLine();
 
             if (input is "q") break;
 
-            input.AdvancedSettingsCommand();
+            if (input.StartsWith("/"))
+            {
+                input.AdvancedSettingsCommand();
+
+                continue;
+            }
 
             var query = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            
+
             var result = mSearchLogic.Search(query, 10);
 
-            if (result.Ignored.Count > 0) {
+            if (result.Ignored.Count > 0)
+            {
                 Console.WriteLine($"Ignored: {string.Join(',', result.Ignored)}");
             }
 
             var idx = 1;
-            foreach (var doc in result.DocumentHits) {
+            foreach (var doc in result.DocumentHits)
+            {
                 Console.WriteLine($"{idx} : {doc.Document.mUrl} -- contains {doc.NoOfHits} search terms");
-                Console.WriteLine($"Index time: {doc.Document.mIdxTime}");
-                Console.WriteLine($"Missing: {ArrayAsString(doc.Missing.ToArray())}");
+                if (AdvancedSettings.ViewTimeStamp)
+                {
+                    Console.WriteLine($"Index time: {doc.Document.mIdxTime}");
+                }
+
+                if (doc.Missing.Count > 0)
+                {
+                    Console.WriteLine($"Missing: {ArrayAsString(doc.Missing.ToArray())}");
+                }
+
                 idx++;
             }
+
             Console.WriteLine($"Documents: {result.Hits}. Time: {result.TimeUsed.TotalMilliseconds:F2} ms\n");
+            
         }
     }
 

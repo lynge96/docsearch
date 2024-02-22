@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ConsoleSearch.Model;
 
 namespace ConsoleSearch
@@ -20,6 +21,8 @@ namespace ConsoleSearch
          */
         public SearchResult Search(String[] query, int maxAmount)
         {
+            query = query.Where(word => !word.StartsWith("/")).ToArray();
+
             List<string> ignored;
 
             var start = DateTime.Now;
