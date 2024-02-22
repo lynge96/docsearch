@@ -2,26 +2,25 @@
 using Shared.Model;
 using System.Collections.Generic;
 
-namespace Indexer
+namespace Indexer;
+
+public interface IDatabase
 {
-    public interface IDatabase
-    {
-        //Get all words with key as the value, and the value as the id 
-        Dictionary<string, int> GetAllWords();
+    //Get all words with key as the value, and the value as the id 
+    Dictionary<string, int> GetAllWords();
 
-        // Return the number of documents
-        int GetDocumentCounts();
+    // Return the number of documents
+    int GetDocumentCounts();
 
-        void InsertDocument(BEDocument doc);
+    void InsertDocument(BEDocument doc);
 
-        // Insert a word in the database with id = [id] and value = [value]
-        void InsertWord(int id, string value);
+    // Insert a word in the database with id = [id] and value = [value]
+    void InsertWord(int id, string value);
 
-        void InsertAllWords(Dictionary<string, int> words);
+    void InsertAllWords(Dictionary<string, int> words);
 
-        void InsertAllOcc(int docId, ISet<int> wordIds);
+    void InsertAllOcc(int docId, ISet<int> wordIds);
 
-        List<WordOccurrenceDto> GetTopWordCounts(int topCount);
+    List<WordOccurrenceDto> GetTopWordCounts(int topCount);
 
-    }
 }

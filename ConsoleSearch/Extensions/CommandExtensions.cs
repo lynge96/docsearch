@@ -11,7 +11,8 @@ public static class CommandExtensions
     {
         { "/help", HelpCommand },
         { "/casesensitive=", CaseSensitiveCommand },
-        { "/timestamp=", TimeStampCommand }
+        { "/timestamp=", TimeStampCommand },
+        { "/results", ResultsCommand}
     };
 
     public static void AdvancedSettingsCommand(this string input)
@@ -73,6 +74,16 @@ public static class CommandExtensions
         }
     }
 
+    private static void ResultsCommand(this string input)
+    {
+        // Extract the value after "="
+        var value = input.Substring("/results=".Length).Trim();
+
+        int.TryParse(value, out int searchResults);
+        // TODO: Fix the output var
+        AdvancedSettings.SearchResults = searchResults;
+
+    }
 
 }
 
