@@ -6,6 +6,6 @@ public class AdvancedSettings
 
     public static bool ViewTimeStamp { get; set; }
 
-    public static int SearchResults { get; set; }
+    public static int? SearchResults { get; set; }
 }
 

@@ -2,8 +2,8 @@
 
 public class Paths
 {
-    public static string FOLDER = @"/Users/lynge/Desktop/Data/seData/small";
+    public static string FOLDER = @"/Users/lynge/Desktop/Data/seData/medium";
 
-    public static string DATABASE = @"/Users/lynge/Desktop/Data/docsearch.db";
+    public static string DATABASE = @"/Users/lynge/Desktop/Data/docsearchMedium.db";
 }
 

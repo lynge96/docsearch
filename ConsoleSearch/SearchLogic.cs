@@ -19,7 +19,7 @@ public class SearchLogic
     /* Perform search of documents containing words from query. The result will
      * contain details about amost maxAmount of documents.
      */
-    public SearchResult Search(String[] query, int maxAmount)
+    public SearchResult Search(String[] query, int? maxAmount)
     {
         query = query.Where(word => !word.StartsWith("/")).ToArray();
 
@@ -36,7 +36,8 @@ public class SearchLogic
         // get ids for the first maxAmount             
         var top = new List<int>();
 
-        foreach (var p in docIds.GetRange(0, Math.Min(maxAmount, docIds.Count)))
+        // using ´??´/null-coalescing operator to default to docIds.Count, if maxAmount = null
+        foreach (var p in docIds.GetRange(0, Math.Min(maxAmount ?? docIds.Count, docIds.Count)))
             top.Add(p.Key);
 
         // compose the result.
