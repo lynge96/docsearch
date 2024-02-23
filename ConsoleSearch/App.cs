@@ -28,7 +28,7 @@ public class App
 
             var query = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-            var result = mSearchLogic.Search(query, 10);
+            var result = mSearchLogic.Search(query, AdvancedSettings.SearchResults);
 
             if (result.Ignored.Count > 0)
             {

@@ -11,7 +11,8 @@ public static class CommandExtensions
     {
         { "/help", HelpCommand },
         { "/casesensitive=", CaseSensitiveCommand },
-        { "/timestamp=", TimeStampCommand }
+        { "/timestamp=", TimeStampCommand },
+        { "/results", ResultsCommand}
     };
 
     public static void AdvancedSettingsCommand(this string input)
@@ -70,6 +71,27 @@ public static class CommandExtensions
         else
         {
             Console.WriteLine("Invalid value. Please use 'on' or 'off'.\n");
+        }
+    }
+
+    private static void ResultsCommand(this string input)
+    {
+        // Extract the value after "="
+        var value = input.Substring("/results=".Length).Trim();
+
+        if (string.Equals(value, "all", StringComparison.OrdinalIgnoreCase))
+        {
+            AdvancedSettings.SearchResults = null;
+            Console.WriteLine("Search results set to: All document hits.\n");
+        }
+        else if (int.TryParse(value, out int searchResults) && searchResults > 0)
+        {
+            AdvancedSettings.SearchResults = searchResults;
+            Console.WriteLine($"Search results set to: {searchResults} document hits.\n");
+        }
+        else
+        {
+            Console.WriteLine("Invalid value. Please insert a non-negative number or 'all' for search results.\n");
         }
     }
 
