@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Shared.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleSearch.Model;
 
-namespace ConsoleSearch;
+namespace Shared;
 
 public class SearchLogic
 {

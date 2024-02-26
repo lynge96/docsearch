@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.Data.Sqlite;
-using Shared;
+﻿using Microsoft.Data.Sqlite;
 using Shared.Model;
+using Shared.Model.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleSearch.Model.Settings;
 
-namespace ConsoleSearch;
+namespace Shared;
 
 public class Database : IDatabase
 {

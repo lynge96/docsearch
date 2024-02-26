@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ConsoleSearch.Model.Settings;
+using Shared.Model.Settings;
 
-namespace ConsoleSearch.Extensions;
+namespace Shared.Extensions;
 
 public static class CommandExtensions
 {

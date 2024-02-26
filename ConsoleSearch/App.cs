@@ -1,6 +1,7 @@
-﻿using ConsoleSearch.Model.Settings;
+﻿using Shared;
+using Shared.Extensions;
+using Shared.Model.Settings;
 using System;
-using ConsoleSearch.Extensions;
 
 namespace ConsoleSearch;
 
@@ -26,7 +27,7 @@ public class App
                 continue;
             }
 
-            var query = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            var query = input.QuerySplitter();
 
             var result = mSearchLogic.Search(query, AdvancedSettings.SearchResults);
 

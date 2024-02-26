@@ -1,0 +1,60 @@
+﻿@page "/searchpage"
+@using Shared.Model
+@using Shared
+@using Shared.Extensions
+@using Shared.Model.Settings
+
+<h3>Gaagle</h3>
+
+<div class="input-group mb-3 w-50">
+    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2" @bind="Input">
+
+    <button class="btn btn-outline-secondary" type="button" @onclick="SearchInput">
+        <i class="bi bi-search"></i>
+    </button>
+</div>
+@* 
+@if (Results != null)
+{
+    @foreach(var doc in Results.DocumentHits)
+
+    {
+        <h2>@doc.Document</h2>
+        <h2>@doc.Missing</h2>
+    }
+} *@
+
+
+@code {
+    private string? Input;
+
+    private SearchResult? Results;
+
+    [Inject] public static IDatabase Database { get; set; }
+
+    private void SearchInput()
+    {
+        try
+        {
+            StateHasChanged();
+
+            var searchLogic = new SearchLogic(Database);
+
+            string[] query;
+
+            query = Input.QuerySplitter();
+
+            Results = searchLogic.Search(query, AdvancedSettings.SearchResults);
+
+            Console.WriteLine($"* {Results.Hits}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex}");
+            // You can also log to a logging framework here.
+        }
+    }
+
+
+
+}

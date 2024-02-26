@@ -1,6 +1,6 @@
-﻿using System.IO;
-using ConsoleSearch.Model.Settings;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Shared.Model.Settings;
+using System.IO;
 
 namespace ConsoleSearch;
 
