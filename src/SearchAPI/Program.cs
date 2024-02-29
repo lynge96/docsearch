@@ -1,3 +1,5 @@
+using Application;
+using Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IDatabase, Database>();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
