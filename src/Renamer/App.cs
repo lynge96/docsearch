@@ -1,9 +1,8 @@
-﻿using System;
-using Shared;
+﻿using Core.Models;
 
-namespace Renamer
-{
-	public class App
+namespace Renamer;
+
+    public class App
 	{
 		public void Run() {
 
@@ -33,5 +32,5 @@ namespace Renamer
 
         public int CountFiles { get; private set; }
     }
-}
+
 

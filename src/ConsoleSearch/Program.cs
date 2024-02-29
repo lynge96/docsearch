@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Shared.Model.Settings;
+﻿using Core.Settings;
+using Microsoft.Extensions.Configuration;
 using System.IO;
 
 namespace ConsoleSearch;

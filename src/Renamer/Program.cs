@@ -1,5 +1,4 @@
-﻿using Shared;
-namespace Renamer;
+﻿namespace Renamer;
 
 class Program
 {
