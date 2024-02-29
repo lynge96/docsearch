@@ -1,5 +1,5 @@
-﻿using indexer.Model;
-using Shared.Model;
+﻿using Core.Models;
+using indexer.Model;
 using System.Collections.Generic;
 
 namespace Indexer;

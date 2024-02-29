@@ -1,4 +1,4 @@
-﻿namespace Shared.Model;
+﻿namespace Core.Models;
 
 public class BEDocument
 {

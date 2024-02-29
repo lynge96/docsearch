@@ -1,11 +1,9 @@
-﻿using Microsoft.Data.Sqlite;
-using Shared.Model;
-using Shared.Model.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Application.Interfaces;
+using Core.Models;
+using Core.Settings;
+using Microsoft.Data.Sqlite;
 
-namespace Shared;
+namespace Application;
 
 public class Database : IDatabase
 {

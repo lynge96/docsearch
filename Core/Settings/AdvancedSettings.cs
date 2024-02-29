@@ -1,4 +1,4 @@
-﻿namespace Shared.Model.Settings;
+﻿namespace Core.Settings;
 
 public class AdvancedSettings
 {

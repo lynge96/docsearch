@@ -1,9 +1,7 @@
-﻿using Shared.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Application.Interfaces;
+using Core.Models;
 
-namespace Shared;
+namespace Application;
 
 public class SearchLogic
 {

@@ -1,7 +1,6 @@
-﻿using indexer.Model;
+﻿using Core.Models;
+using indexer.Model;
 using Microsoft.Data.Sqlite;
-using Shared;
-using Shared.Model;
 using System.Collections.Generic;
 
 namespace Indexer

@@ -1,22 +1,14 @@
-﻿using System;
-using System.IO;
-using Microsoft.Data.Sqlite;
-
-namespace Indexer
+﻿namespace Indexer;
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            
-            new App().Run();
-
-            //new Renamer().Crawl(new DirectoryInfo(@"/Users/ole/data"));
-
-
-        }
-
         
-        
+        new App().Run();
+
+        //new Renamer().Crawl(new DirectoryInfo(@"/Users/ole/data"));
+
+
     }
+
 }

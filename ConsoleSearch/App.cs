@@ -1,6 +1,6 @@
-﻿using Shared;
-using Shared.Extensions;
-using Shared.Model.Settings;
+﻿using Application;
+using Application.Extensions;
+using Core.Settings;
 using System;
 
 namespace ConsoleSearch;

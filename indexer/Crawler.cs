@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Shared.Model;
+using Core.Models;
 
 namespace Indexer
 {
@@ -65,7 +65,8 @@ namespace Indexer
                 if (extensions.Contains(file.Extension))
                 {
                     documentCounter++;
-                    BEDocument newDoc = new BEDocument{
+                    BEDocument newDoc = new()
+                    {
                         mId = documentCounter,
                         mUrl = file.FullName,
                         mIdxTime = DateTime.Now.ToString(),

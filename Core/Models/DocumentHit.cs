@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Shared.Model
+namespace Core.Models
 {
     public class DocumentHit
     {

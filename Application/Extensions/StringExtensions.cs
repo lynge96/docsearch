@@ -1,6 +1,5 @@
-﻿using System;
+﻿namespace Application.Extensions;
 
-namespace Shared.Extensions;
 public static class StringExtensions
 {
     public static string[] QuerySplitter(this string input)
