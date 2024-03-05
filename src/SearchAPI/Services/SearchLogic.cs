@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Core.Models;
+﻿using Core.Models;
+using SearchAPI.Interfaces;
 
 namespace Application;
 

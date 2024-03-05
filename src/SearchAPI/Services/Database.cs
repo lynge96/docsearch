@@ -1,7 +1,7 @@
-﻿using Application.Interfaces;
-using Core.Models;
+﻿using Core.Models;
 using Core.Settings;
 using Microsoft.Data.Sqlite;
+using SearchAPI.Interfaces;
 
 namespace Application;
 

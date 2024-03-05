@@ -1,6 +1,6 @@
 using Application;
-using Application.Interfaces;
 using Core.Settings;
+using SearchAPI.Interfaces;
 
 IConfiguration configuration = ConfigurationHelper.GetConfiguration();
 

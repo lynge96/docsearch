@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace Application.Interfaces;
+namespace SearchAPI.Interfaces;
 
 public interface IDatabase
 {

@@ -1,16 +1,22 @@
-﻿using Application;
-using Application.Extensions;
+﻿using Application.Extensions;
 using Core.Settings;
 using System;
+using Application.Interfaces;
+using ConsoleSearch.Interfaces;
 
 namespace ConsoleSearch;
 
-public class App
+public class App : IApp
 {
+    private readonly ISearchService _searchService;
+
+    public App(ISearchService searchService)
+    {
+        _searchService = searchService;
+    }
+
     public void Run()
     {
-        var mSearchLogic = new SearchLogic(new Database());
-
         Console.WriteLine("Console Search\n");
         
         while (true)
@@ -29,8 +35,8 @@ public class App
 
             var query = input.QuerySplitter();
 
-            var result = mSearchLogic.Search(query, AdvancedSettings.SearchResults);
-
+            var result = _searchService.SearchAsync(query).Result;
+            
             if (result.Ignored.Count > 0)
             {
                 Console.WriteLine($"Ignored: {string.Join(',', result.Ignored)}");

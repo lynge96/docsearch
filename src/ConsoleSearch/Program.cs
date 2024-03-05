@@ -1,17 +1,18 @@
-﻿using Core.Settings;
+﻿using Application.Interfaces;
+using ConsoleSearch;
+using ConsoleSearch.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace ConsoleSearch;
+IConfiguration configuration = ConfigurationHelper.GetConfiguration();
 
-class Program
-{
-    static void Main(string[] args)
-    {
-        IConfiguration configuration = ConfigurationHelper.GetConfiguration();
+var serviceProvider = new ServiceCollection()
+    .AddSingleton<ISearchService, SearchService>()
 
-        configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
+    .AddTransient<IApp, App>()
 
-        new App().Run();
-    }
-}
+    .BuildServiceProvider();
 
+var app = serviceProvider.GetRequiredService<IApp>();
+
+app.Run();

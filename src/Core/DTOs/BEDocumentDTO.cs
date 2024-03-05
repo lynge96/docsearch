@@ -1,6 +1,6 @@
-﻿namespace Core.Models;
+﻿namespace Core.DTOs;
 
-public class BEDocument
+public class BEDocumentDTO
 {
     public int mId { get; set; }
 
@@ -9,6 +9,4 @@ public class BEDocument
     public string mIdxTime { get; set; }
 
     public string mCreationTime { get; set; }
-
 }
-

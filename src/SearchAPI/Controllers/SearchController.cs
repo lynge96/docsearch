@@ -1,16 +1,16 @@
-﻿using Application.Interfaces;
-using Core.Models;
+﻿using Application.Mapper;
+using Core.DTOs;
 using Core.Settings;
 using Microsoft.AspNetCore.Mvc;
+using SearchAPI.Interfaces;
 
 namespace SearchAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class SearchController : ControllerBase
 {
     private readonly ILogger<SearchController> _logger;
-
     private readonly ISearchLogic _searchLogic;
 
     public SearchController(ILogger<SearchController> logger, ISearchLogic searchLogic)
@@ -19,14 +19,16 @@ public class SearchController : ControllerBase
         _searchLogic = searchLogic;
     }
 
-    [HttpGet("getSearchResult")]
-    public ActionResult<SearchResult> GetSearchResult([FromQuery] string[] search)
+    [HttpGet(Name = "getSearchResult")]
+    public ActionResult<SearchResultDTO> GetSearchResult([FromQuery] string[] search)
     {
         try
         {
             var result = _searchLogic.Search(search, AdvancedSettings.SearchResults);
 
-            return Ok(result);
+            var dto = SearchResultMapper.SearchResultToDTO(result);
+
+            return Ok(dto);
         }
         catch (Exception e)
         {
