@@ -3,7 +3,7 @@ using Blazor;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-IConfiguration configuration = ConfigurationHelper.GetConfiguration();
+ConfigurationHelper.GetConfiguration();
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -13,6 +13,6 @@ builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
-builder.Services.AddScoped<ISearchService, SearchService>();
+builder.Services.AddScoped<ISearchService, SearchService>(sp => new SearchService(new HttpClient()));
 
 await builder.Build().RunAsync();

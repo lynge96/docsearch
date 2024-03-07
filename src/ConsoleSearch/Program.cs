@@ -1,13 +1,13 @@
 ﻿using Application.Interfaces;
 using ConsoleSearch;
 using ConsoleSearch.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
-IConfiguration configuration = ConfigurationHelper.GetConfiguration();
+ConfigurationHelper.GetConfiguration();
 
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<ISearchService, SearchService>()
+    .AddSingleton<ISearchService, SearchService>(sp => new SearchService(new HttpClient()))
 
     .AddTransient<IApp, App>()
 

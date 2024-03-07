@@ -7,9 +7,9 @@ public class SearchService : ISearchService
 {
     private readonly HttpClient _httpClient;
 
-    public SearchService()
+    public SearchService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
 
         _httpClient.BaseAddress = new Uri(ConnectionStrings.ApiUrl);
     }

@@ -1,0 +1,28 @@
+﻿@inherits ComponentBase
+
+@if (Results != null)
+{
+    <ol class="list-group list-group-numbered">
+        @foreach (var doc in Results.DocumentHits)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-normal">File: <a href="file:///@doc.Document.mUrl" type="_blank"><strong>@doc.Document.mUrl</strong></a></div>
+                    <div class="fw-normal">Document Id: <strong>@doc.Document.mId</strong></div>
+                    <div class="fw-normal">Missing Words: <strong>[ @string.Join(", ", @doc.Missing) ]</strong></div>
+                    <div class="fw-normal">Hits: <strong>@doc.NoOfHits</strong></div>
+                    <div class="fw-normal">Creation Time: <strong>@doc.Document.mCreationTime</strong></div>
+                    @if (AdvancedSettings.ViewTimeStamp)
+                    {
+                        <div class="fw-normal">Index Time: <strong>@doc.Document.mIdxTime</strong></div>
+                    }
+                </div>
+            </li>
+        }
+    </ol>
+}
+
+@code {
+    [Parameter]
+    public SearchResultDTO Results { get; set; }
+}
