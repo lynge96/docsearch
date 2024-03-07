@@ -1,0 +1,56 @@
+﻿@page "/searchpage"
+@inject ISearchService SearchService
+
+<PageTitle>Search</PageTitle>
+
+<div class="text-center">
+    <h3>Gaagle</h3>
+</div>
+
+<div class="input-group mx-auto my-3 w-25">
+    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2" @bind="_input" @onkeypress="HandleKeyPress">
+
+    <button class="btn btn-outline-primary" type="button" @onclick="Search">
+        <i class="bi bi-search"></i>
+    </button>
+</div>
+
+
+@if (_results != null)
+{
+    @foreach(var doc in _results.DocumentHits)
+    {
+        <h3>@doc.Document.mUrl</h3>
+        <h3>@doc.Document.mId</h3>
+        <h3>@doc.Document.mCreationTime</h3>
+        <h3>@doc.NoOfHits</h3>
+    }
+}
+
+
+@code {
+    private string? _input;
+
+    private SearchResultDTO? _results;
+
+    private int _counter;
+
+    private async void Search()
+    {
+        StateHasChanged();
+
+        _counter = 1;
+
+        var query = _input.QuerySplitter();
+
+        _results = await SearchService.SearchAsync(query);
+    }
+
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            Search();
+        }
+    }
+}
