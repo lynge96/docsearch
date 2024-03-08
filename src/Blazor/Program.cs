@@ -15,4 +15,5 @@ builder.Services.AddScoped(sp => new HttpClient
 });
 builder.Services.AddScoped<ISearchService, SearchService>(sp => new SearchService(new HttpClient()));
 
+
 await builder.Build().RunAsync();

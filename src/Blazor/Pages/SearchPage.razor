@@ -10,7 +10,7 @@
 
 <div class="col col-6 mx-auto">
     <div class="input-group my-5 mx-auto w-50">
-        <input type="text" class="form-control" placeholder="Input search words" aria-label="Search" @bind="_input" @onkeypress="HandleKeyPress">
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search" @bind="_input" @bind:event="oninput" @onkeypress="HandleKeyPress">
 
         <button class="btn btn-primary px-4" type="button" @onclick="Search">
             <i class="bi bi-search"></i>
@@ -29,7 +29,6 @@
             <label class="form-check-label" for="flexSwitchCheckDefault">Case sensitive</label>
         </div>
 
-
     </div>
     
     <div>
@@ -44,17 +43,13 @@
 
     private SearchResultDTO? _results;
 
-    private int _counter;
-
     private async void Search()
     {
-        StateHasChanged();
-
-        _counter = 1;
-
         var query = _input.QuerySplitter();
 
         _results = await SearchService.SearchAsync(query);
+
+        StateHasChanged();
     }
 
     private void HandleKeyPress(KeyboardEventArgs e)
