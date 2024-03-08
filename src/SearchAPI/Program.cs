@@ -1,10 +1,7 @@
 using Application;
-using Core.Settings;
 using SearchAPI.Interfaces;
 
-IConfiguration configuration = ConfigurationHelper.GetConfiguration();
-
-configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
+ConfigurationHelper.GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
