@@ -1,7 +1,7 @@
 ﻿using Core.Models;
 using SearchAPI.Interfaces;
 
-namespace Application;
+namespace SearchAPI.Services;
 
 public class SearchLogic : ISearchLogic
 {

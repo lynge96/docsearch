@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Blazor.Components
 @inject ISearchService SearchService
+@inject ISettingsService SettingsService
 
 <PageTitle>Search</PageTitle>
 
@@ -23,16 +24,26 @@
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
         </ul>
-        
+    </div>
+    
+    <div class="row col-6 mx-auto">
         <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked="@AdvancedSettings.IsCaseSensitive" @onchange="ToggleCaseSensitive">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked="@_advancedSettings.IsCaseSensitive" @onchange="ToggleCaseSensitive">
             <label class="form-check-label" for="flexSwitchCheckDefault">Case sensitive</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked="@_advancedSettings.ViewTimeStamp" @onchange="ToggleTimeStamps">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Time stamps</label>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon3">Search results</span>
+            <input type="text" class="form-control" aria-describedby="basic-addon3" placeholder="@_advancedSettings.SearchResults" @bind="_advancedSettings.SearchResults" @onblur="SetSearchResults">
         </div>
 
     </div>
     
     <div>
-        <SearchResults Results="_results"></SearchResults>
+        <SearchResults Results="_results" Settings="_advancedSettings"></SearchResults>
     </div>
 
 </div>
@@ -42,6 +53,13 @@
     private string? _input;
 
     private SearchResultDTO? _results;
+
+    private AdvancedSettingsDTO? _advancedSettings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _advancedSettings = await SettingsService.GetAdvancedSettings();
+    }
 
     private async void Search()
     {
@@ -62,9 +80,28 @@
 
     private void ToggleCaseSensitive(ChangeEventArgs e)
     {
-        AdvancedSettings.IsCaseSensitive = (bool)e.Value;
+        var isCaseSensitive = Convert.ToBoolean(e.Value);
 
-        Console.WriteLine($"IsCaseSensitive: {AdvancedSettings.IsCaseSensitive}");
+        SettingsService.ToggleCaseSensitive(isCaseSensitive);
+    }
+
+    private void ToggleTimeStamps(ChangeEventArgs e)
+    {
+        var viewTimeStamps = Convert.ToBoolean(e.Value);
+
+        SettingsService.ToggleTimeStamps(viewTimeStamps);
+
+        _advancedSettings.ViewTimeStamp = viewTimeStamps;
+    }
+
+    private async Task SetSearchResults()
+    {
+        await SetSearchResults(_advancedSettings.SearchResults);
+    }
+
+    private async Task SetSearchResults(int? noOfResults)
+    {
+        await SettingsService.SetSearchResults(noOfResults);
     }
 
 }

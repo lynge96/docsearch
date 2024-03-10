@@ -19,7 +19,7 @@ public class SearchController : ControllerBase
         _searchLogic = searchLogic;
     }
 
-    [HttpGet(Name = "getSearchResult")]
+    [HttpGet(Name = "GetSearchResult")]
     public ActionResult<SearchResultDTO> GetSearchResult([FromQuery] string[] search)
     {
         try
@@ -27,7 +27,7 @@ public class SearchController : ControllerBase
             var result = _searchLogic.Search(search, AdvancedSettings.SearchResults);
 
             var dto = SearchResultMapper.SearchResultToDTO(result);
-            Console.WriteLine($"IsCaseSensitive: {AdvancedSettings.IsCaseSensitive}");
+
             return Ok(dto);
         }
         catch (Exception e)

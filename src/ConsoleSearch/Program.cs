@@ -4,8 +4,6 @@ using ConsoleSearch.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 
-ConfigurationHelper.GetConfiguration();
-
 var serviceProvider = new ServiceCollection()
     .AddSingleton<ISearchService, SearchService>(sp => new SearchService(new HttpClient()))
 

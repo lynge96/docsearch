@@ -1,5 +1,6 @@
 using Application;
 using SearchAPI.Interfaces;
+using SearchAPI.Services;
 
 ConfigurationHelper.GetConfiguration();
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
+builder.Services.AddScoped<IUpdateSettings, UpdateSettings>();
 builder.Services.AddCors();
 
 var app = builder.Build();

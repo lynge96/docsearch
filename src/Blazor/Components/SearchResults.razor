@@ -13,7 +13,7 @@
                     <div class="fw-normal">Hits: <strong>@doc.NoOfHits</strong></div>
                     <div class="d-flex justify-content-between">
                         <div class="fw-normal">Creation Time: <strong>@doc.Document.mCreationTime</strong></div>
-                        @if (AdvancedSettings.ViewTimeStamp)
+                        @if (Settings.ViewTimeStamp)
                         {
                             <div class="fw-normal">Index Time: <strong>@doc.Document.mIdxTime</strong></div>
                         }
@@ -26,7 +26,8 @@
 }
 
 @code {
-    [Parameter]
-    public SearchResultDTO Results { get; set; }
+    [Parameter] public SearchResultDTO Results { get; set; }
+
+    [Parameter] public AdvancedSettingsDTO Settings { get; set; }
 
 }
