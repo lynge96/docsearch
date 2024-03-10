@@ -1,19 +1,18 @@
 ﻿using Application.Interfaces;
 using Core.DTOs;
 using System.Net.Http.Json;
-using Core.Settings;
 
 public class SearchService : ISearchService
 {
     private readonly HttpClient _httpClient;
 
-    public SearchService()
+    public SearchService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
 
-        _httpClient.BaseAddress = new Uri(ConnectionStrings.ApiUrl);
+        _httpClient.BaseAddress = new Uri("http://localhost:5139");
     }
-
+    
     public async Task<SearchResultDTO?> SearchAsync(string[] search)
     {
         try

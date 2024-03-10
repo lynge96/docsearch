@@ -1,10 +1,8 @@
 using Application;
-using Core.Settings;
 using SearchAPI.Interfaces;
+using SearchAPI.Services;
 
-IConfiguration configuration = ConfigurationHelper.GetConfiguration();
-
-configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
+ConfigurationHelper.GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
+builder.Services.AddScoped<IUpdateSettings, UpdateSettings>();
 builder.Services.AddCors();
 
 var app = builder.Build();

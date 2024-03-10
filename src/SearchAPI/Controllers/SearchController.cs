@@ -19,7 +19,7 @@ public class SearchController : ControllerBase
         _searchLogic = searchLogic;
     }
 
-    [HttpGet(Name = "getSearchResult")]
+    [HttpGet(Name = "GetSearchResult")]
     public ActionResult<SearchResultDTO> GetSearchResult([FromQuery] string[] search)
     {
         try
