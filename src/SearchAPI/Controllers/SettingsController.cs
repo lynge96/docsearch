@@ -10,12 +10,12 @@ namespace SearchAPI.Controllers;
 public class SettingsController : ControllerBase
 {
     private readonly ILogger<SettingsController> _logger;
-    private readonly IUpdateSettings _settingsService;
+    private readonly IUpdateSettings _updateSettings;
 
-    public SettingsController(ILogger<SettingsController> logger, IUpdateSettings settingsService)
+    public SettingsController(ILogger<SettingsController> logger, IUpdateSettings updateSettings)
     {
         _logger = logger;
-        _settingsService = settingsService;
+        _updateSettings = updateSettings;
     }
 
     [HttpGet(Name = "GetSettings")]
@@ -23,7 +23,7 @@ public class SettingsController : ControllerBase
     {
         try
         {
-            var settings = _settingsService.GetSettings();
+            var settings = _updateSettings.GetSettings();
 
             return Ok(settings);
         }
@@ -38,7 +38,7 @@ public class SettingsController : ControllerBase
     {
         try
         {
-            _settingsService.ToggleCaseSensitive(state);
+            _updateSettings.ToggleCaseSensitive(state);
 
             return Ok(new { Message = "Toggle successful", State = AdvancedSettings.IsCaseSensitive });
         }
@@ -53,7 +53,7 @@ public class SettingsController : ControllerBase
     {
         try
         {
-            _settingsService.ToggleTimeStamps(state);
+            _updateSettings.ToggleTimeStamps(state);
 
             return Ok(new { Message = "Toggle successful", State = AdvancedSettings.ViewTimeStamp });
         }
@@ -68,7 +68,7 @@ public class SettingsController : ControllerBase
     {
         try
         {
-            _settingsService.NoOfResults(noOfResults);
+            _updateSettings.NoOfResults(noOfResults);
 
             return Ok(new { Message = "Search results updated", State = AdvancedSettings.SearchResults });
         }
