@@ -1,6 +1,4 @@
 ﻿@page "/"
-@using Blazor.Components
-@inject ISearchService SearchService
 @inject ISettingsService SettingsService
 
 <PageTitle>Search</PageTitle>
@@ -56,16 +54,18 @@
 
     private AdvancedSettingsDTO? _advancedSettings = new();
 
+    private ISearchService _searchService = SearchFactory.GetSearchLogic();
+
     protected override async Task OnInitializedAsync()
     {
         _advancedSettings = await SettingsService.GetAdvancedSettings();
     }
-
+    
     private async void Search()
     {
         var query = _input.QuerySplitter();
 
-        _results = await SearchService.SearchAsync(query);
+        _results = await _searchService.SearchAsync(query);
 
         StateHasChanged();
     }
