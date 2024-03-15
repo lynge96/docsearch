@@ -3,9 +3,11 @@ using ConsoleSearch;
 using ConsoleSearch.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
+using Application.Services;
+using Loadbalancer;
 
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<ISearchService, SearchService>(sp => new SearchService(new HttpClient()))
+    .AddSingleton<ISearchService, SearchService>(sp => new SearchService(new LoadBalancer()))
 
     .AddTransient<IApp, App>()
 

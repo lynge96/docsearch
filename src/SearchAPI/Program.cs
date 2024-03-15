@@ -1,4 +1,5 @@
 using Application;
+using Loadbalancer;
 using SearchAPI.Interfaces;
 using SearchAPI.Services;
 
