@@ -1,9 +1,10 @@
-﻿namespace Loadbalancer;
+﻿using Loadbalancer;
 
 public class LoadBalancer : ILoadBalancer
 {
     private readonly List<string> _endpoints;
     private int _currentIndex;
+    private DateTime _lastRedirectTime;
 
     public LoadBalancer()
     {
@@ -14,12 +15,22 @@ public class LoadBalancer : ILoadBalancer
         };
 
         _currentIndex = 0;
+        _lastRedirectTime = DateTime.MinValue;
     }
 
     public string GetNextEndpoint()
     {
-        // Cycle through endpoints in round-robin fashion
-        _currentIndex = (_currentIndex + 1) % _endpoints.Count;
+        // Check if 2 seconds have passed since the last redirect
+        if ((DateTime.Now - _lastRedirectTime).TotalSeconds >= 2)
+        {
+            _currentIndex = 0;
+            _lastRedirectTime = DateTime.Now;
+        }
+        else
+        {
+            _currentIndex = (_currentIndex + 1) % _endpoints.Count;
+        }
+
         return _endpoints[_currentIndex];
     }
 

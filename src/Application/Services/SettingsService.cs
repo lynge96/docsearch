@@ -26,7 +26,7 @@ public class SettingsService : ISettingsService
             {
                 var response = await client.GetAsync("api/Settings/GetSettings");
 
-                response.EnsureSuccessStatusCode();
+                // response.EnsureSuccessStatusCode();
 
                 var resultDTO = await response.Content.ReadFromJsonAsync<AdvancedSettingsDTO>();
 
