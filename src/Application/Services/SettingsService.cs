@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using Application.Interfaces;
 using Core.DTOs;
 using Loadbalancer;
@@ -24,13 +25,20 @@ public class SettingsService : ISettingsService
 
             foreach (var client in httpClients)
             {
+                client.Timeout = TimeSpan.FromSeconds(2);
+
                 var response = await client.GetAsync("api/Settings/GetSettings");
 
-                // response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
                 var resultDTO = await response.Content.ReadFromJsonAsync<AdvancedSettingsDTO>();
+                
+                if (resultDTO != null)
+                {
+                    resultDTOs.Add(resultDTO);
 
-                resultDTOs.Add(resultDTO);
+                    return resultDTOs.FirstOrDefault();
+                }
             }
 
             FlushHttpClients(httpClients);
