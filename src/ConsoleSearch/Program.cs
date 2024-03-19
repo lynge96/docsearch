@@ -7,7 +7,7 @@ using Application.Services;
 using Loadbalancer;
 
 var serviceProvider = new ServiceCollection()
-    .AddSingleton<ISearchService, SearchService>(sp => new SearchService(new LoadBalancer()))
+    .AddSingleton<ISearchService, SearchService>(sp => new SearchService())
 
     .AddTransient<IApp, App>()
 

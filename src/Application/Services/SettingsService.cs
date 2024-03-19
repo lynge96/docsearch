@@ -1,25 +1,25 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Core.DTOs;
-using Loadbalancer;
+using System.Net.Http.Json;
 
 namespace Application.Services;
 
 public class SettingsService : ISettingsService
 {
-    private readonly ILoadBalancer _loadBalancer;
+    private readonly HttpClient _client;
 
-    public SettingsService(ILoadBalancer loadBalancer)
+    public SettingsService()
     {
-        _loadBalancer = loadBalancer;
+        _client = new HttpClient();
+        // Localhost endpoint for loadbalancer API
+        _client.BaseAddress = new Uri("https://localhost:7068");
     }
 
-    public async Task<AdvancedSettingsDTO> GetAdvancedSettings()
+    public async Task<AdvancedSettingsDTO?> GetAdvancedSettings()
     {
         try
         {
-            var httpClients = GetHttpClients();
+            var httpClients = await GetHttpClients();
 
             var resultDTOs = new List<AdvancedSettingsDTO>();
 
@@ -43,7 +43,7 @@ public class SettingsService : ISettingsService
 
             FlushHttpClients(httpClients);
 
-            return resultDTOs.FirstOrDefault();
+            return null;
         }
         catch (Exception e)
         {
@@ -53,7 +53,7 @@ public class SettingsService : ISettingsService
 
     public async Task SetSearchResults(int? noOfResults)
     {
-        var httpClients = GetHttpClients();
+        var httpClients = await GetHttpClients();
 
         if (noOfResults <= 0)
         {
@@ -69,7 +69,7 @@ public class SettingsService : ISettingsService
 
     public async Task ToggleCaseSensitive(bool state)
     {
-        var httpClients = GetHttpClients();
+        var httpClients = await GetHttpClients();
 
         var putTasks = httpClients.Select(client => client.PutAsync($"api/Settings/ToggleCaseSensitive?state={state}", null));
 
@@ -80,7 +80,7 @@ public class SettingsService : ISettingsService
 
     public async Task ToggleTimeStamps(bool state)
     {
-        var httpClients = GetHttpClients();
+        var httpClients = await GetHttpClients();
 
         var putTasks = httpClients.Select(client => client.PutAsync($"api/Settings/ToggleTimeStamps?state={state}", null));
 
@@ -89,13 +89,17 @@ public class SettingsService : ISettingsService
         FlushHttpClients(httpClients);
     }
 
-    private List<HttpClient> GetHttpClients()
+    private async Task<List<HttpClient>> GetHttpClients()
     {
-        var allEndpoints = _loadBalancer.GetAllEndpoints();
+        var response = await _client.GetAsync("api/Loadbalancer/GetAllEndpoints");
+
+        response.EnsureSuccessStatusCode();
+
+        var endpoints = await response.Content.ReadFromJsonAsync<List<string>>();
 
         var httpClients = new List<HttpClient>();
 
-        foreach (var endpoint in allEndpoints)
+        foreach (var endpoint in endpoints)
         {
             var client = new HttpClient
             {
@@ -108,7 +112,7 @@ public class SettingsService : ISettingsService
         return httpClients;
     }
 
-    private void FlushHttpClients(IEnumerable<HttpClient> httpClients)
+    private void FlushHttpClients(List<HttpClient> httpClients)
     {
         foreach (var client in httpClients)
         {

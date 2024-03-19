@@ -1,32 +1,24 @@
 ﻿using Application.Interfaces;
 using Core.DTOs;
 using System.Net.Http.Json;
-using Loadbalancer;
 
 namespace Application.Services;
 
 public class SearchService : ISearchService
 {
-    private readonly ILoadBalancer _loadBalancer;
+    private static readonly HttpClient _client = new();
 
-    public SearchService(ILoadBalancer loadBalancer)
-    {
-        _loadBalancer = loadBalancer;
-    }
-    
     public async Task<SearchResultDTO?> SearchAsync(string[] search)
     {
         try
         {
-            var nextEndpoint = _loadBalancer.GetNextEndpoint();
+            var nextEndpoint = await _client.GetStringAsync("api/Loadbalancer/GetNextEndpoint");
+
             var uri = new Uri(nextEndpoint);
 
-            using var client = new HttpClient
-            {
-                BaseAddress = uri
-            };
+            _client.BaseAddress = uri;
 
-            var response = await client.GetAsync($"api/Search/getSearchResult?search={string.Join("&search=", search)}");
+            var response = await _client.GetAsync($"api/Search/getSearchResult?search={string.Join("&search=", search)}");
 
             response.EnsureSuccessStatusCode(); // Ensure a successful response status code
 
