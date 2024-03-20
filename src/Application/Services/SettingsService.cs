@@ -10,9 +10,11 @@ public class SettingsService : ISettingsService
 
     public SettingsService()
     {
-        _client = new HttpClient();
-        // Localhost endpoint for loadbalancer API
-        _client.BaseAddress = new Uri("https://localhost:7068");
+        _client = new()
+        {
+            // Localhost endpoint for loadbalancer API
+            BaseAddress = new Uri("http://localhost:5291")
+        };
     }
 
     public async Task<AdvancedSettingsDTO?> GetAdvancedSettings()

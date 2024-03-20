@@ -6,19 +6,21 @@ namespace Application.Services;
 
 public class SearchService : ISearchService
 {
-    private static readonly HttpClient _client = new();
 
     public async Task<SearchResultDTO?> SearchAsync(string[] search)
     {
         try
         {
-            var nextEndpoint = await _client.GetStringAsync("api/Loadbalancer/GetNextEndpoint");
+            var endpoint = await GetNextEndpoint();
 
-            var uri = new Uri(nextEndpoint);
+            var uri = new Uri(endpoint);
 
-            _client.BaseAddress = uri;
+            using var client = new HttpClient
+            {
+                BaseAddress = uri
+            };
 
-            var response = await _client.GetAsync($"api/Search/getSearchResult?search={string.Join("&search=", search)}");
+            var response = await client.GetAsync($"api/Search/getSearchResult?search={string.Join("&search=", search)}");
 
             response.EnsureSuccessStatusCode(); // Ensure a successful response status code
 
@@ -31,5 +33,23 @@ public class SearchService : ISearchService
             // Handle exception, log, or rethrow
             throw new Exception("Error while calling the API", ex);
         }
+    }
+
+    private async Task<string> GetNextEndpoint()
+    {
+        using var client = new HttpClient
+        {
+            // Localhost endpoint for loadbalancer API
+            BaseAddress = new Uri("http://localhost:5291")
+        };
+
+        var endpointResponse = await client.GetAsync("api/Loadbalancer/GetNextEndpoint");
+
+        endpointResponse.EnsureSuccessStatusCode(); // Ensure a successful response status code
+
+        var endpointURI = await endpointResponse.Content.ReadAsStringAsync();
+
+        return endpointURI;
+
     }
 }

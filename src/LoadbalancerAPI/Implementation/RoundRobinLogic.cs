@@ -30,7 +30,9 @@ public class RoundRobinLogic : ILoadbalancer
         }
         else
         {
+            // If not enough time has passed, use the next endpoint in the list
             _next = (_next + 1) % _endpoints.Count;
+            _lastRedirectTime = DateTime.Now;
         }
 
         return _endpoints[_next];
