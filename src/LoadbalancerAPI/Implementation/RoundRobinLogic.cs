@@ -4,48 +4,36 @@ namespace LoadbalancerAPI.Implementation;
 
 public class RoundRobinLogic : ILoadbalancer
 {
-    private readonly List<string> _endpoints;
-    private int _next;
-    private DateTime _lastRedirectTime;
+    private static int _next;
 
     public RoundRobinLogic()
     {
-        _endpoints = new List<string>
-        {
-            "https://localhost:7233",
-            "https://localhost:7234"
-        };
-
         _next = 0;
-        _lastRedirectTime = DateTime.MinValue;
     }
 
-    public string GetNextEndpoint()
+    public async Task<string?> NextEndpoint()
     {
-        // Check if 2 seconds have passed since the last redirect
-        if ((DateTime.Now - _lastRedirectTime).TotalSeconds >= 2)
+        var endpoints = GetEndpoints();
+
+        if (endpoints == null || endpoints.Count == 0)
         {
-            _next = 0;
-            _lastRedirectTime = DateTime.Now;
-        }
-        else
-        {
-            // If not enough time has passed, use the next endpoint in the list
-            _next = (_next + 1) % _endpoints.Count;
-            _lastRedirectTime = DateTime.Now;
+            return null;
         }
 
-        return _endpoints[_next];
+        // Cycle through Endpoints in round-robin fashion
+        _next = (_next + 1) % endpoints.Count;
+
+        return endpoints[_next];
     }
 
-    public List<string> GetAllEndpoints()
+    public async Task<List<string>> AllEndpoints()
     {
-        return _endpoints;
+        return GetEndpoints();
     }
 
-    public void CheckAvailableServers()
+    private List<string> GetEndpoints()
     {
-        // TODO: Logic for server check
-        throw new NotImplementedException();
+        return StartupService.Endpoints;
     }
+
 }

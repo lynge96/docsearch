@@ -16,21 +16,30 @@ public class LoadbalancerController : Controller
         _loadbalancer = loadbalancer;
     }
 
-    [HttpGet(Name = "GetNextEndpoint")]
-    public string GetNextEndpoint()
+    [HttpGet(Name = "NextEndpoint")]
+    public async Task<ActionResult<string>> GetNextEndpointAsync()
     {
-        var endpoint = _loadbalancer.GetNextEndpoint();
+        var endpoint = await _loadbalancer.NextEndpoint();
 
-        return endpoint;
+        if (endpoint == null)
+        {
+            return NotFound("No SearchAPI endpoints was available");
+        }
+
+        return Ok(endpoint);
     }
 
     [HttpGet(Name = "GetAllEndpoints")]
-    public List<string> GetAllEndpoints()
+    public async Task<ActionResult<List<string>>> GetAllEndpointsAsync()
     {
-        var endpoints = _loadbalancer.GetAllEndpoints();
+        var endpoints = await _loadbalancer.AllEndpoints();
 
-        return endpoints;
+        if (endpoints == null)
+        {
+            return NotFound("No SearchAPI endpoints was available");
+        }
+
+        return Ok(endpoints);
     }
-
 
 }

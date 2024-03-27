@@ -3,13 +3,17 @@ using LoadbalancerAPI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHostedService<StartupService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<ILoadbalancer, RoundRobinLogic>();
+builder.Services.AddSingleton<IHealthCheck, HealthCheck>();
+builder.Services.AddSingleton<ILoadbalancer, RoundRobinLogic>();
 
 var app = builder.Build();
 

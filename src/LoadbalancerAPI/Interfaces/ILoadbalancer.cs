@@ -2,9 +2,8 @@
 
 public interface ILoadbalancer
 {
-    string GetNextEndpoint();
+    Task<string?> NextEndpoint();
 
-    List<string> GetAllEndpoints();
+    Task<List<string>> AllEndpoints();
 
-    void CheckAvailableServers();
 }
