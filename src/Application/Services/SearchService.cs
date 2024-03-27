@@ -1,25 +1,19 @@
 ﻿using Application.Interfaces;
 using Core.DTOs;
 using System.Net.Http.Json;
-using Loadbalancer;
 
 namespace Application.Services;
 
 public class SearchService : ISearchService
 {
-    private readonly ILoadBalancer _loadBalancer;
 
-    public SearchService(ILoadBalancer loadBalancer)
-    {
-        _loadBalancer = loadBalancer;
-    }
-    
     public async Task<SearchResultDTO?> SearchAsync(string[] search)
     {
         try
         {
-            var nextEndpoint = _loadBalancer.GetNextEndpoint();
-            var uri = new Uri(nextEndpoint);
+            var endpoint = await GetNextEndpoint();
+
+            var uri = new Uri(endpoint);
 
             using var client = new HttpClient
             {
@@ -39,5 +33,23 @@ public class SearchService : ISearchService
             // Handle exception, log, or rethrow
             throw new Exception("Error while calling the API", ex);
         }
+    }
+
+    private async Task<string> GetNextEndpoint()
+    {
+        using var client = new HttpClient
+        {
+            // Localhost endpoint for loadbalancer API
+            BaseAddress = new Uri("http://localhost:5291")
+        };
+
+        var endpointResponse = await client.GetAsync("api/Loadbalancer/GetNextEndpoint");
+
+        endpointResponse.EnsureSuccessStatusCode(); // Ensure a successful response status code
+
+        var endpointURI = await endpointResponse.Content.ReadAsStringAsync();
+
+        return endpointURI;
+
     }
 }

@@ -1,0 +1,45 @@
+﻿using LoadbalancerAPI.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LoadbalancerAPI.Controllers;
+
+[ApiController]
+[Route("api/[controller]/[action]")]
+public class LoadbalancerController : Controller
+{
+    private readonly ILogger<LoadbalancerController> _logger;
+    private readonly ILoadbalancer _loadbalancer;
+
+    public LoadbalancerController(ILogger<LoadbalancerController> logger, ILoadbalancer loadbalancer)
+    {
+        _logger = logger;
+        _loadbalancer = loadbalancer;
+    }
+
+    [HttpGet(Name = "NextEndpoint")]
+    public async Task<ActionResult<string>> GetNextEndpointAsync()
+    {
+        var endpoint = await _loadbalancer.NextEndpoint();
+
+        if (endpoint == null)
+        {
+            return NotFound("No SearchAPI endpoints was available");
+        }
+
+        return Ok(endpoint);
+    }
+
+    [HttpGet(Name = "GetAllEndpoints")]
+    public async Task<ActionResult<List<string>>> GetAllEndpointsAsync()
+    {
+        var endpoints = await _loadbalancer.AllEndpoints();
+
+        if (endpoints == null)
+        {
+            return NotFound("No SearchAPI endpoints was available");
+        }
+
+        return Ok(endpoints);
+    }
+
+}
