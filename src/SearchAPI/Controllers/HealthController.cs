@@ -6,17 +6,10 @@ namespace SearchAPI.Controllers;
 [Route("api/[controller]/[action]")]
 public class HealthController : ControllerBase
 {
-    [HttpGet(Name = "HealthCheck")]
-    public ActionResult CheckHealth()
+    [HttpGet(Name = "CheckHealth")]
+    public IActionResult CheckHealth()
     {
-        var isHealthy = true;
-
-        if (isHealthy)
-        {
-            return Ok("API is healthy");
-        }
-
-        return StatusCode(500, "API is unhealthy");
+        return Ok("API is running");
     }
 }
 
