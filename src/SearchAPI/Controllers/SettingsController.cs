@@ -25,6 +25,8 @@ public class SettingsController : ControllerBase
         {
             var settings = _updateSettings.GetSettings();
 
+            _logger.LogInformation("Fetching settings: {@settings}", settings);
+
             return Ok(settings);
         }
         catch (Exception e)
@@ -39,6 +41,8 @@ public class SettingsController : ControllerBase
         try
         {
             _updateSettings.ToggleCaseSensitive(state);
+
+            _logger.LogInformation("Toggled Casesensitive: {state}", state);
 
             return Ok(new { Message = "Toggle successful", State = AdvancedSettings.IsCaseSensitive });
         }
@@ -55,6 +59,8 @@ public class SettingsController : ControllerBase
         {
             _updateSettings.ToggleTimeStamps(state);
 
+            _logger.LogInformation("Toggled Timestamps: {state}", state);
+
             return Ok(new { Message = "Toggle successful", State = AdvancedSettings.ViewTimeStamp });
         }
         catch (Exception e)
@@ -69,6 +75,8 @@ public class SettingsController : ControllerBase
         try
         {
             _updateSettings.NoOfResults(noOfResults);
+
+            _logger.LogInformation("Number of search results has been set to {results}", noOfResults);
 
             return Ok(new { Message = "Search results updated", State = AdvancedSettings.SearchResults });
         }

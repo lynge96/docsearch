@@ -25,7 +25,7 @@ public class HealthCheck : IHealthCheck
         {
             try
             {
-                await _httpClient.GetAsync($"{serverUrl}/Health/CheckHealth");
+                await _httpClient.GetAsync($"{serverUrl}/api/Health/CheckHealth");
 
                 availableServers.Add(serverUrl);
             }
