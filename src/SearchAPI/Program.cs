@@ -1,8 +1,9 @@
 using Application;
 using SearchAPI.Interfaces;
 using SearchAPI.Services;
+using Serilog;
 
-ConfigurationHelper.GetConfiguration();
+Configuration.GetConfiguration();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,14 @@ builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
 builder.Services.AddScoped<IUpdateSettings, UpdateSettings>();
 builder.Services.AddCors();
+
+Log.Logger =
+    new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

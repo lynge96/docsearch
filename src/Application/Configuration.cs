@@ -1,9 +1,9 @@
 ﻿using Core.Settings;
 using Microsoft.Extensions.Configuration;
 
-public class ConfigurationHelper
+public static class Configuration
 {
-    public static IConfiguration GetConfiguration()
+    public static void GetConfiguration()
     {
         IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -12,7 +12,6 @@ public class ConfigurationHelper
 
         configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
         configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
-
-        return configuration;
     }
+
 }
