@@ -19,7 +19,7 @@ public class LoadbalancerController : Controller
     [HttpGet(Name = "NextEndpoint")]
     public async Task<ActionResult<string>> GetNextEndpointAsync()
     {
-        var endpoint = await _loadbalancer.NextEndpoint();
+        var endpoint = _loadbalancer.NextEndpoint();
 
         if (endpoint == null)
         {
@@ -36,7 +36,7 @@ public class LoadbalancerController : Controller
     [HttpGet(Name = "GetAllEndpoints")]
     public async Task<ActionResult<List<string>>> GetAllEndpointsAsync()
     {
-        var endpoints = await _loadbalancer.AllEndpoints();
+        var endpoints = _loadbalancer.AllEndpoints();
 
         if (endpoints == null || endpoints.Count == 0)
         {
