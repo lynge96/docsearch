@@ -2,8 +2,8 @@
 
 public interface ILoadbalancer
 {
-    Task<string?> NextEndpoint();
+    string? NextEndpoint();
 
-    Task<List<string>> AllEndpoints();
+    List<string> AllEndpoints();
 
 }
