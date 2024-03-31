@@ -11,9 +11,9 @@ public class RoundRobinLogic : ILoadbalancer
         _next = 0;
     }
 
-    public async Task<string?> NextEndpoint()
+    public string? NextEndpoint()
     {
-        var endpoints = GetEndpoints();
+        var endpoints = StartupService.Endpoints;
 
         if (endpoints == null || endpoints.Count == 0)
         {
@@ -26,14 +26,13 @@ public class RoundRobinLogic : ILoadbalancer
         return endpoints[_next];
     }
 
-    public async Task<List<string>> AllEndpoints()
+    public List<string>? AllEndpoints()
     {
-        return GetEndpoints();
-    }
+        if (StartupService.Endpoints == null)
+        {
+            return null;
+        }
 
-    private List<string> GetEndpoints()
-    {
         return StartupService.Endpoints;
     }
-
 }

@@ -1,5 +1,6 @@
 using LoadbalancerAPI.Implementation;
 using LoadbalancerAPI.Interfaces;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,14 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<IHealthCheck, HealthCheck>();
 builder.Services.AddSingleton<ILoadbalancer, RoundRobinLogic>();
+
+Log.Logger =
+    new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

@@ -23,8 +23,12 @@ public class LoadbalancerController : Controller
 
         if (endpoint == null)
         {
+            _logger.LogError("No endpoints were found: {endpoint}", endpoint);
+
             return NotFound("No SearchAPI endpoints was available");
         }
+
+        _logger.LogInformation("Returning next API endpoint: {endpoint}", endpoint);
 
         return Ok(endpoint);
     }
@@ -34,10 +38,14 @@ public class LoadbalancerController : Controller
     {
         var endpoints = await _loadbalancer.AllEndpoints();
 
-        if (endpoints == null)
+        if (endpoints == null || endpoints.Count == 0)
         {
+            _logger.LogError("No endpoints were found: {endpoints}", endpoints);
+
             return NotFound("No SearchAPI endpoints was available");
         }
+
+        _logger.LogInformation("Returning all available API endpoints {endpoints}", endpoints);
 
         return Ok(endpoints);
     }
