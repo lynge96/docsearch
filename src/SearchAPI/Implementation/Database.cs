@@ -15,7 +15,7 @@ public class Database : IDatabase
     {
         var connectionStringBuilder = new SqliteConnectionStringBuilder();
 
-        connectionStringBuilder.DataSource = Paths.DATABASE;
+        connectionStringBuilder.DataSource = Environment.GetEnvironmentVariable("DB_Path");
 
 
         _connection = new SqliteConnection(connectionStringBuilder.ConnectionString);

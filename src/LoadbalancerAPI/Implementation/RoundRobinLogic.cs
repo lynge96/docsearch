@@ -1,4 +1,6 @@
-﻿using LoadbalancerAPI.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using LoadbalancerAPI.Interfaces;
 
 namespace LoadbalancerAPI.Implementation;
 
@@ -11,7 +13,7 @@ public class RoundRobinLogic : ILoadbalancer
         _next = 0;
     }
 
-    public string? NextEndpoint()
+    public string? NextEndpoint(string? username)
     {
         var endpoints = StartupService.Endpoints;
 
@@ -23,10 +25,10 @@ public class RoundRobinLogic : ILoadbalancer
         // Cycle through Endpoints in round-robin fashion
         _next = (_next + 1) % endpoints.Count;
 
-        return endpoints[_next];
+        return endpoints.ElementAt(_next).Value;
     }
 
-    public List<string>? AllEndpoints()
+    public Dictionary<string, string>? AllEndpoints()
     {
         if (StartupService.Endpoints == null)
         {

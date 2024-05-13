@@ -7,11 +7,11 @@ namespace Application.Services;
 public class SearchService : ISearchService
 {
 
-    public async Task<SearchResultDTO?> SearchAsync(string[] search)
+    public async Task<SearchResultDTO?> SearchAsync(string[] search, string username)
     {
         try
         {
-            var endpoint = await GetNextEndpoint();
+            var endpoint = await GetNextEndpoint(username);
 
             var uri = new Uri(endpoint);
 
@@ -35,7 +35,7 @@ public class SearchService : ISearchService
         }
     }
 
-    private async Task<string> GetNextEndpoint()
+    private async Task<string> GetNextEndpoint(string username)
     {
         using var client = new HttpClient
         {
@@ -43,7 +43,7 @@ public class SearchService : ISearchService
             BaseAddress = new Uri("http://localhost:5291")
         };
 
-        var endpointResponse = await client.GetAsync("api/Loadbalancer/GetNextEndpoint");
+        var endpointResponse = await client.GetAsync($"api/Loadbalancer/GetNextEndpoint?username={username}");
 
         endpointResponse.EnsureSuccessStatusCode(); // Ensure a successful response status code
 

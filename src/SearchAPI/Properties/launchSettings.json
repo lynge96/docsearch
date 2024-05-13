@@ -29,24 +29,28 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "https": {
+    "https-allen": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7233;http://localhost:5139",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "User": "Allen",
+        "DB_Path": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/searchDBm1.db"
       }
     },
-    "https2": {
+    "https-arnold": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7234;http://localhost:5140",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "User": "Arnold",
+        "DB_Path": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/searchDBm2.db"
       }
     },
     "IIS Express": {

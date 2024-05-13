@@ -1,7 +1,10 @@
-﻿namespace LoadbalancerAPI.Interfaces;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace LoadbalancerAPI.Interfaces;
 
 public interface IHealthCheck
 {
-    Task<List<string>> CheckServers();
+    Task<Dictionary<string,string>> CheckServers();
 
 }
