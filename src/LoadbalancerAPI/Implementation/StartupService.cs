@@ -1,4 +1,10 @@
-﻿using LoadbalancerAPI.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using LoadbalancerAPI.Interfaces;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 public class StartupService : IHostedService, IDisposable
 {
@@ -7,7 +13,7 @@ public class StartupService : IHostedService, IDisposable
     private readonly TimeSpan _interval = TimeSpan.FromSeconds(10); // Adjust the interval as needed
     private Timer _timer;
 
-    public static List<string>? Endpoints;
+    public static Dictionary<string, string>? Endpoints;
 
     public StartupService(ILogger<StartupService> logger, IHealthCheck healthCheck)
     {

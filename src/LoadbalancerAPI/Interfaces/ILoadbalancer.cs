@@ -1,9 +1,11 @@
-﻿namespace LoadbalancerAPI.Interfaces;
+﻿using System.Collections.Generic;
+
+namespace LoadbalancerAPI.Interfaces;
 
 public interface ILoadbalancer
 {
-    string? NextEndpoint();
+    string? NextEndpoint(string? username);
 
-    List<string> AllEndpoints();
+    Dictionary<string, string> AllEndpoints();
 
 }

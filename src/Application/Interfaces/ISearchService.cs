@@ -4,5 +4,5 @@ namespace Application.Interfaces;
 
 public interface ISearchService
 {
-    public Task<SearchResultDTO?> SearchAsync(string[] query);
+    public Task<SearchResultDTO?> SearchAsync(string[] query, string username);
 }

@@ -37,7 +37,20 @@
             <span class="input-group-text" id="basic-addon3">Search results</span>
             <input type="text" class="form-control" aria-describedby="basic-addon3" placeholder="@_advancedSettings.SearchResults" @bind="_advancedSettings.SearchResults" @onblur="SetSearchResults">
         </div>
-
+    </div>
+    <div class="row col-6 mx-auto">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="usernameRadio" id="allenRadio" value="Allen" @onchange="UpdateUsername" checked="@(_username == "Allen")">
+            <label class="form-check-label" for="allenRadio">
+                Allen
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="usernameRadio" id="arnoldRadio" value="Arnold" @onchange="UpdateUsername" checked="@(_username == "Arnold")">
+            <label class="form-check-label" for="arnoldRadio">
+                Arnold
+            </label>
+        </div>
     </div>
     
     <div>
@@ -49,6 +62,8 @@
 
 @code {
     private string? _input;
+
+    private string? _username;
 
     private SearchResultDTO? _results;
 
@@ -65,7 +80,7 @@
     {
         var query = _input.QuerySplitter();
 
-        _results = await _searchService.SearchAsync(query);
+        _results = await _searchService.SearchAsync(query, _username);
 
         StateHasChanged();
     }
@@ -102,6 +117,11 @@
     private async Task SetSearchResults(int? noOfResults)
     {
         await SettingsService.SetSearchResults(noOfResults);
+    }
+    
+    private void UpdateUsername(ChangeEventArgs e)
+    {
+        _username = e.Value.ToString();
     }
 
 }

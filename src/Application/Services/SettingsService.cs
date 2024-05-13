@@ -97,7 +97,7 @@ public class SettingsService : ISettingsService
 
         response.EnsureSuccessStatusCode();
 
-        var endpoints = await response.Content.ReadFromJsonAsync<List<string>>();
+        var endpoints = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
 
         var httpClients = new List<HttpClient>();
 
@@ -105,7 +105,7 @@ public class SettingsService : ISettingsService
         {
             var client = new HttpClient
             {
-                BaseAddress = new Uri(endpoint)
+                BaseAddress = new Uri(endpoint.Value)
             };
 
             httpClients.Add(client);

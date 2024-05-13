@@ -1,33 +1,37 @@
-﻿using LoadbalancerAPI.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using LoadbalancerAPI.Interfaces;
 
 namespace LoadbalancerAPI.Implementation;
 
 public class HealthCheck : IHealthCheck
 {
     private readonly HttpClient _httpClient;
-    private readonly List<string> _endpoints;
+    private readonly Dictionary<string, string> _endpoints;
 
     public HealthCheck()
     {
-        _endpoints = new List<string>
+        _endpoints = new Dictionary<string, string>
         {
-            "https://localhost:7233",
-            "https://localhost:7234"
+            {"Allen", "https://localhost:7233"},
+            {"Arnold", "https://localhost:7234"}
         };
         _httpClient = new HttpClient();
     }
 
-    public async Task<List<string>> CheckServers()
+    public async Task<Dictionary<string, string>> CheckServers()
     {
-        var availableServers = new List<string>();
+        var availableServers = new Dictionary<string, string>();
 
         foreach (var serverUrl in _endpoints)
         {
             try
             {
-                await _httpClient.GetAsync($"{serverUrl}/api/Health/CheckHealth");
+                await _httpClient.GetAsync($"{serverUrl.Value}/api/Health/CheckHealth");
 
-                availableServers.Add(serverUrl);
+                availableServers.Add(serverUrl.Key, serverUrl.Value);
             }
             catch (HttpRequestException ex)
             {

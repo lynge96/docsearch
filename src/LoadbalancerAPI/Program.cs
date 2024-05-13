@@ -1,5 +1,8 @@
 using LoadbalancerAPI.Implementation;
 using LoadbalancerAPI.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +17,7 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<IHealthCheck, HealthCheck>();
-builder.Services.AddSingleton<ILoadbalancer, RoundRobinLogic>();
+builder.Services.AddSingleton<ILoadbalancer, DatabaseSplitLogic>();
 
 Log.Logger =
     new LoggerConfiguration()
