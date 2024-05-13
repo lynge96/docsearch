@@ -1,4 +1,5 @@
 using Application;
+using SearchAPI.Implementation;
 using SearchAPI.Interfaces;
 using SearchAPI.Services;
 using Serilog;
@@ -15,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
 builder.Services.AddScoped<IUpdateSettings, UpdateSettings>();
+builder.Services.AddScoped<IDocsReader, DocsReader>();
 builder.Services.AddCors();
 
 Log.Logger =
