@@ -49,7 +49,7 @@
 
     private ISearchService _searchService = SearchFactory.GetSearchLogic();
     
-    private async void OpenFile(string? documentUrl)
+    private async Task OpenFile(string? documentUrl)
     {
         fileUrl = documentUrl;
         
