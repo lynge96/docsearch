@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.Settings;
 using SearchAPI.Interfaces;
 
 namespace SearchAPI.Services;
@@ -51,5 +52,35 @@ public class SearchLogic : ISearchLogic
         }
 
         return new SearchResult(query, docIds.Count, docresult, ignored, DateTime.Now - start);
+    }
+    
+    public string GetFilePath(string localPath)
+    {
+        var username = Environment.GetEnvironmentVariable("User");
+        var key = "";
+            
+        if (username == "Allen")
+        {
+            key = "medium1/";
+        } else if (username == "Arnold")
+        {
+            key = "medium2/";
+        }
+        else
+        {
+            throw new ArgumentException("Invalid username");
+        }
+
+        var index = localPath.IndexOf(key);
+            
+        if (index >= 0)
+        {
+            string basePath = Environment.GetEnvironmentVariable("FilePath");
+            return Path.Combine(basePath, localPath.Substring(index + key.Length));
+        }
+        else
+        {
+            throw new FileNotFoundException();
+        }
     }
 }

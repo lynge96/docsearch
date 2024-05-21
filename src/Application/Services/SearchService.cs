@@ -52,4 +52,32 @@ public class SearchService : ISearchService
         return endpointURI;
 
     }
+    
+    public async Task<string> GetFileContentAsync(string fileName, string username)
+    {
+        try
+        {
+            var endpoint = await GetNextEndpoint(username);
+
+            var uri = new Uri(endpoint);
+
+            using var client = new HttpClient
+            {
+                BaseAddress = uri
+            };
+
+            var response = await client.GetAsync($"api/Search/getFileContent?fileName={fileName}");
+
+            response.EnsureSuccessStatusCode(); // Ensure a successful response status code
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            return result;
+        }
+        catch (HttpRequestException ex)
+        {
+            // Handle exception, log, or rethrow
+            throw new Exception("Error while calling the API", ex);
+        }
+    }
 }

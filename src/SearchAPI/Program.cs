@@ -1,7 +1,11 @@
 using Application;
+using Application.Interfaces;
+using Application.Services;
 using SearchAPI.Interfaces;
 using SearchAPI.Services;
 using Serilog;
+using StackExchange.Redis;
+using IDatabase = SearchAPI.Interfaces.IDatabase;
 
 Configuration.GetConfiguration();
 
@@ -15,6 +19,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISearchLogic, SearchLogic>();
 builder.Services.AddScoped<IUpdateSettings, UpdateSettings>();
+builder.Services.AddScoped<ICacheService, CacheService>();
+
 builder.Services.AddCors();
 
 Log.Logger =

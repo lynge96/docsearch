@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 
 public static class Configuration
 {
+    public static ConnectionStrings? ConnectionStrings { get; private set; }
+    public static AdvancedSettings? AdvancedSettings { get; private set; }
     public static void GetConfiguration()
     {
         IConfiguration configuration = new ConfigurationBuilder()
@@ -10,8 +12,8 @@ public static class Configuration
             .AddJsonFile("appsettings.json")
             .Build();
 
-        configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
-        configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+        AdvancedSettings = configuration.GetSection("AdvancedSettings").Get<AdvancedSettings>();
+        ConnectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
     }
 
 }

@@ -1,4 +1,6 @@
-﻿@inherits ComponentBase
+﻿@using System.Dynamic
+@inherits ComponentBase
+@inject ILogger<SearchResults> logger
 
 @if (Results != null)
 {
@@ -7,7 +9,7 @@
         {
             <li class="list-group-item d-flex ">
                 <div class="ms-2 me-auto">
-                    <div class="fw-normal">File: <a href="file:///@doc.Document.mUrl" type="_blank"><strong>@doc.Document.mUrl</strong></a></div>
+                    <div class="fw-normal">File: <a class="text-primary" @onclick="() => OpenFile(doc.Document.mUrl)" type="_blank"><strong>@doc.Document.mUrl</strong></a></div>
                     <div class="fw-normal">Document Id: <strong>@doc.Document.mId</strong></div>
                     <div class="fw-normal">Missing Words: <strong>[ @string.Join(", ", @doc.Missing) ]</strong></div>
                     <div class="fw-normal">Hits: <strong>@doc.NoOfHits</strong></div>
@@ -24,10 +26,35 @@
         }
     </ol>
 }
+<ModalDialog @ref="@modalDialog" Title="Indhold">
+    <div class="row">
+        <h3>@fileUrl</h3>
+        <hr>
+        <p>@fileContent</p>
+        <button class="btn btn-primary" @onclick="() => modalDialog.Close()">Close</button>
+    </div>
+</ModalDialog>
 
 @code {
     [Parameter] public SearchResultDTO Results { get; set; }
 
     [Parameter] public AdvancedSettingsDTO Settings { get; set; }
+    
+    [Parameter] public string Username { get; set; }
+    
+    private string fileUrl = "";
+    private string fileContent = "";
+    private ModalDialog? modalDialog { get; set; }
 
+
+    private ISearchService _searchService = SearchFactory.GetSearchLogic();
+    
+    private async Task OpenFile(string? documentUrl)
+    {
+        fileUrl = documentUrl;
+        
+        fileContent = await _searchService.GetFileContentAsync(documentUrl, Username);
+        
+        modalDialog.Open();
+    }
 }

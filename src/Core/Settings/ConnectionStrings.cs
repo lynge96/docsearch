@@ -2,5 +2,7 @@
 
 public class ConnectionStrings
 {
-    public static string? ApiUrl { get; set; }
+    public string? ApiUrl { get; set; }
+    public string? Redis { get; set; }
+
 }
