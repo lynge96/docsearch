@@ -9,7 +9,7 @@
         {
             <li class="list-group-item d-flex ">
                 <div class="ms-2 me-auto">
-                    <div class="fw-normal">File: <a @onclick="() => OpenFile(doc.Document.mUrl)" type="_blank"><strong>@doc.Document.mUrl</strong></a></div>
+                    <div class="fw-normal">File: <a class="text-primary" @onclick="() => OpenFile(doc.Document.mUrl)" type="_blank"><strong>@doc.Document.mUrl</strong></a></div>
                     <div class="fw-normal">Document Id: <strong>@doc.Document.mId</strong></div>
                     <div class="fw-normal">Missing Words: <strong>[ @string.Join(", ", @doc.Missing) ]</strong></div>
                     <div class="fw-normal">Hits: <strong>@doc.NoOfHits</strong></div>
