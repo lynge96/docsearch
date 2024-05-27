@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dotnet run --launch-profile https2
+dotnet run --launch-profile https-arnold
