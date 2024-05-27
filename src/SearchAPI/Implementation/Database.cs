@@ -3,14 +3,20 @@ using Core.Settings;
 using Microsoft.Data.Sqlite;
 using SearchAPI.Interfaces;
 
+// Denne fil indeholder en implementering af en databaseklasse til SearchAPI.
+// Database-klassen håndterer forbindelse til en SQLite-database og udfører forskellige databaseoperationer,
+// såsom at hente dokumenter, søge efter ord og opdatere indstillinger.
+
 namespace Application;
 
 public class Database : IDatabase
 {
     private SqliteConnection _connection;
 
+    // Cache til ord og deres tilsvarende ID'er
     private Dictionary<string, int> mWords = null;
 
+    // Constructor der initialiserer databasen og åbner en forbindelse
     public Database()
     {
         var connectionStringBuilder = new SqliteConnectionStringBuilder();
@@ -24,6 +30,7 @@ public class Database : IDatabase
 
     }
 
+    // Udfører en SQL-kommando uden at returnere resultater
     private void Execute(string sql)
     {
         var cmd = _connection.CreateCommand();
@@ -32,7 +39,8 @@ public class Database : IDatabase
     }
 
 
-    // key is the id of the document, the value is number of search words in the document
+    // Henter dokumenter baseret på en liste af ord-ID'er
+    // Returnerer en liste af nøgle-/værdipar, hvor nøglen er dokumentets ID og værdien er antallet af søgeord i dokumentet
     public List<KeyValuePair<int, int>> GetDocuments(List<int> wordIds)
     {
         var res = new List<KeyValuePair<int, int>>();
@@ -68,10 +76,13 @@ public class Database : IDatabase
         return res;
     }
 
+    // Konverterer en liste af heltal til en kommasepareret streng, indpakket i parenteser
+    // Dette bruges til at bygge SQL-forespørgsler
     private string AsString(List<int> x) => $"({string.Join(',', x)})";
 
 
-
+    // Henter alle ord fra databasen med deres tilsvarende ID'er
+    // Returnerer en ordbog, hvor nøglen er ordet og værdien er ordets ID
     private Dictionary<string, int> GetAllWords(bool caseSensitive = false)
     {
         var res = new Dictionary<string, int>();
@@ -92,7 +103,8 @@ public class Database : IDatabase
         return res;
     }
 
-
+    // Henter detaljer om dokumenter baseret på en liste af dokument-ID'er
+    // Returnerer en liste af BEDocument-objekter med dokumentets detaljer
     public List<BEDocument> GetDocDetails(List<int> docIds)
     {
         List<BEDocument> res = new List<BEDocument>();
@@ -115,8 +127,8 @@ public class Database : IDatabase
         return res;
     }
 
-    /* Return a list of id's for words; all them among wordIds, but not present in the document
-     */
+    // Returnerer en liste af ord-ID'er der mangler i et specifikt dokument
+    // Sammenligner de forventede ord-ID'er med de faktiske ord-ID'er i dokumentet
     public List<int> GetMissing(int docId, List<int> wordIds)
     {
         var sql = "SELECT wordId FROM Occ where ";
@@ -144,6 +156,8 @@ public class Database : IDatabase
         return result;
     }
 
+    // Henter ord baseret på en liste af ord-ID'er
+    // Returnerer en liste af ord
     public List<string> WordsFromIds(List<int> wordIds)
     {
         var sql = "SELECT name FROM Word where ";
@@ -165,6 +179,8 @@ public class Database : IDatabase
         return result;
     }
 
+    // Henter ord-ID'er baseret på en søgeforespørgsel og returnerer også en liste af ignorerede ord
+    // Returnerer en liste af ord-ID'er der matcher søgeforespørgslen, samt en liste af ord der ikke blev fundet
     public List<int> GetWordIds(string[] query, out List<string> outIgnored)
     {
         if (mWords == null)
@@ -184,7 +200,7 @@ public class Database : IDatabase
 
                 if (matchingWords.Any())
                 {
-                    // If there are matching words, add their corresponding IDs
+                    // Hvis der er matchende ord, tilføj deres tilsvarende ID'er
                     res.AddRange(matchingWords.Select(word => mWords[word]));
                 }
             }

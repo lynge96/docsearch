@@ -38,8 +38,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "User": "Allen",
-        "DB_Path": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/searchDBm1.db",
-        "FilePath": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/"
+        "DB_Path": "/Users/Kerst/docsearch/Data/searchDBm1.db",
+        "FilePath": "/Users/Kerst/docsearch/Data/"
       }
     },
     "https-arnold": {
@@ -51,8 +51,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "User": "Arnold",
-        "DB_Path": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/searchDBm2.db",
-        "FilePath": "/Users/jacobkaae/Documents/EAAA/6semester/ArkitekturPrincipper/Angus/docsearch/Data/"
+        "DB_Path": "/Users/Kerst/docsearch/Data/searchDBm2.db",
+        "FilePath": "/Users/Kerst/docsearch/Data/"
       }
     },
     "IIS Express": {
